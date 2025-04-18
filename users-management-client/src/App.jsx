@@ -23,7 +23,11 @@ function App() {
         "content-type": "application/json",
       },
       body: JSON.stringify(user),
-    });
+    })
+    .then(res=>res.json())
+    .then(data =>{
+      console.log(data)
+    })
   };
 
   return (
