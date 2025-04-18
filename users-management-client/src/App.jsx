@@ -12,11 +12,30 @@ function App() {
     .then(data=> setUser(data))
   },[])
   
+  const handleAddUser=(e)=>{
+    e.preventDefault();
+    const form = e.target;
+    const name = form.name.value;
+    const email = form.email.value;
+    const user= {name,email};
+    console.log(user);
+  }
+
   return (
     <>
      
       <h1>Users Management System</h1>
       <h3>Numbers os users: {users.length}</h3>
+      <form onSubmit={handleAddUser} >
+        <input type="text" name='name' id='' /> <br />
+        <input type="email" name='email' id='' /> <br />
+        <input type="submit" name='Add User' id='' /> <br />
+      </form>
+      <div>
+        {
+          users.map(user=> <p key={user.id}>{user.id} : {user.name} : {user.email} </p> )
+        }
+      </div>
     </>
   )
 }

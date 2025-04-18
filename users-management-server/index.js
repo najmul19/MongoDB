@@ -8,8 +8,8 @@ app.use(cors())// call the cors its also important for data show
 
 const users = [
     {id: 1,name:'atamiah',email:'atamiah@gmail.com' },
-    {id: 1,name:'mainer',email:'mainer@gmail.com' },
-    {id: 1,name:'akbor',email:'akbor@gmail.com' },
+    {id: 2,name:'mainer',email:'mainer@gmail.com' },
+    {id: 3,name:'akbor',email:'akbor@gmail.com' },
 ]
 
 app.get('/',(req,res)=>{
