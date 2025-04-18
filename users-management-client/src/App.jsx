@@ -24,10 +24,13 @@ function App() {
       },
       body: JSON.stringify(user),
     })
-    .then(res=>res.json())
-    .then(data =>{
-      console.log(data)
-    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        const newUsers = [...users, data];
+        setUser(newUsers);
+        form.reset();
+      });
   };
 
   return (
