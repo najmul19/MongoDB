@@ -5,6 +5,7 @@ const port = process.env.PORT || 5000;
 
 // middleware
 app.use(cors()); // call the cors its also important for data show
+app.use(express.json()); //must use it to handle send data clinet to server
 
 const users = [
   { id: 1, name: "atamiah", email: "atamiah@gmail.com" },
@@ -23,6 +24,10 @@ app.get("/users", (req, res) => {
 app.post("/users", (req, res) => {
   console.log("post api hitting");
   console.log(req.body);
+  const newUser = req.body;
+  newUser.id = users.length + 1;
+  users.push(newUser);
+  res.send(newUser);
 });
 
 app.listen(port, () => {
