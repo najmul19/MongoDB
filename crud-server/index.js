@@ -8,9 +8,9 @@ app.use(express.json());
 // inajmul605
 // lOgCOrMGbFwC4YnM
 
-
-const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
-const uri = "mongodb+srv://inajmul605:lOgCOrMGbFwC4YnM@cluster0.zof5niq.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
+const uri =
+  "mongodb+srv://inajmul605:lOgCOrMGbFwC4YnM@cluster0.zof5niq.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
 const client = new MongoClient(uri, {
@@ -18,7 +18,7 @@ const client = new MongoClient(uri, {
     version: ServerApiVersion.v1,
     strict: true,
     deprecationErrors: true,
-  }
+  },
 });
 
 async function run() {
@@ -28,37 +28,43 @@ async function run() {
 
     const database = client.db("usersDB");
     const userCollection = database.collection("users");
-    app.get('/users',async(req, res)=>{
-      const cursor = userCollection.find()
-      const result  = await cursor.toArray();
-      res.send(result)
-    })
-    app.post('/users', async(req, res)=>{
+    app.get("/users", async (req, res) => {
+      const cursor = userCollection.find();
+      const result = await cursor.toArray();
+      res.send(result);
+    });
+    app.get("/users/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const user = await userCollection.findOne(query);
+      res.send(user);
+    });
+    app.post("/users", async (req, res) => {
       const user = req.body;
-      console.log('new user', user)
+      console.log("new user", user);
       const result = await userCollection.insertOne(user);
       res.send(result);
-    })
+    });
 
-    app.delete('/users/:id', async(req,res)=>{
-      const id = req.params.id
-      console.log("please delet form databse", id)
-      const query = {_id: new ObjectId(id)}
-      const result = await userCollection.deleteOne(query)
-      res.send(result)
-    })
-
+    app.delete("/users/:id", async (req, res) => {
+      const id = req.params.id;
+      console.log("please delet form databse", id);
+      const query = { _id: new ObjectId(id) };
+      const result = await userCollection.deleteOne(query);
+      res.send(result);
+    });
 
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
-    console.log("Pinged your deployment. You successfully connected to MongoDB!");
+    console.log(
+      "Pinged your deployment. You successfully connected to MongoDB!"
+    );
   } finally {
     // Ensures that the client will close when you finish/error
     // await client.close();
   }
 }
 run().catch(console.dir);
-
 
 app.get("/", (req, res) => {
   res.send("simple curd is running");
