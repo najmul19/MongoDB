@@ -9,7 +9,7 @@ app.use(express.json());
 // lOgCOrMGbFwC4YnM
 
 
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const uri = "mongodb+srv://inajmul605:lOgCOrMGbFwC4YnM@cluster0.zof5niq.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
@@ -38,6 +38,14 @@ async function run() {
       console.log('new user', user)
       const result = await userCollection.insertOne(user);
       res.send(result);
+    })
+
+    app.delete('/users/:id', async(req,res)=>{
+      const id = req.params.id
+      console.log("please delet form databse", id)
+      const query = {_id: new ObjectId(id)}
+      const result = await userCollection.deleteOne(query)
+      res.send(result)
     })
 
 
