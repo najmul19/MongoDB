@@ -4,7 +4,7 @@ const port = process.env.PORT || 5000;
 
 const app = express();
 app.use(cors());
-app.use(express.json());
+app.use(express.json()); // for recive body dat
 // inajmul605
 // lOgCOrMGbFwC4YnM
 
@@ -46,6 +46,26 @@ async function run() {
       res.send(result);
     });
 
+    app.put("/users/:id", async (req, res) => {
+      const id = req.params.id;
+      const user = req.body;
+      console.log(id, user);
+      // --------------------------------
+      const filter = { _id: new ObjectId(id) };
+      const options = { upsert: true }; // update or insert
+      const updatedUser = {
+        $set: {
+          name: user.name,
+          email: user.email,
+        },
+      };
+      const result = await userCollection.updateOne(
+        filter,
+        updatedUser,
+        options
+      );
+      res.send(result);
+    });
     app.delete("/users/:id", async (req, res) => {
       const id = req.params.id;
       console.log("please delet form databse", id);
