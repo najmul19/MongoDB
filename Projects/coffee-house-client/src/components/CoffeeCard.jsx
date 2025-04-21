@@ -1,8 +1,11 @@
+
 import Swal from "sweetalert2";
 
-const CoffeeCard = ({ coffee }) => {
+const CoffeeCard = ({ coffee,allCoffee,setAllCoffee  }) => {
   const { _id, name, quantity, supplier, test, category, details, photo } =
     coffee;
+
+
   const handleDelete = (id) => {
     // console.log(id)
     Swal.fire({
@@ -15,12 +18,25 @@ const CoffeeCard = ({ coffee }) => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        // Swal.fire({
-        //   title: "Deleted!",
-        //   text: "Your file has been deleted.",
-        //   icon: "success",
-        // });
-        console.log("Delete confirm")
+        fetch(`http://localhost:5000/coffee/${_id}`,{
+            method: 'DELETE'
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            console.log(data);
+            if (data.deletedCount) {
+              Swal.fire({
+                title: "Deleted!",
+                text: "Your Coffee has been deleted.",
+                icon: "success",
+              });
+              console.log("Delete confirm");
+              const remaining = allCoffee.filter(item => item._id !== id);
+              console.log(allCoffee)
+              console.log(remaining)
+              setAllCoffee(remaining); // 🔥 UI updated
+            }
+          });
       }
     });
   };
