@@ -10,9 +10,29 @@ const AddCoffee = () => {
     const category = form.category.value;
     const photo = form.photo.value;
     const details = form.details.value;
+    // https://i.ibb.co.com/vCV5RQf6/1.png
+    const newCoffee = {
+      name,
+      quantity,
+      supplier,
+      test,
+      category,
+      details,
+      photo,
+    };
+    console.log(newCoffee);
 
-    const newCoffee = {name,quantity,supplier,test,category,details,photo}
-    console.log(newCoffee)
+    fetch("http://localhost:5000/coffee", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(newCoffee),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+      });
   };
   return (
     <div className="bg-[#F4F3F0] p-24">
