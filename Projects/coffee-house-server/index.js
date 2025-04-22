@@ -76,22 +76,33 @@ async function run() {
 
     // users related api
     app.get("/users", async (req, res) => {
-      cursor = usersCollection.find()
+      cursor = usersCollection.find();
       const result = await cursor.toArray();
-      res.send(result)
-    })
+      res.send(result);
+    });
     app.post("/users", async (req, res) => {
       const newUser = req.body;
       console.log("creating new User", newUser);
       const result = await usersCollection.insertOne(newUser);
-      res.send(result)
+      res.send(result);
     });
-    app.delete('/users/:id',async(req,res)=>{
+    app.patch("/users", async (req, res) => {
+      const email = req.body.email;
+      const filter = { email };
+      const updatedDoc = {
+        $set: {
+          lastSignInTime: req.body?.lastSignInTime,
+        },
+      };
+      const result = await usersCollection.updateOne(filter, updatedDoc);
+      res.send(result);
+    });
+    app.delete("/users/:id", async (req, res) => {
       const id = req.params.id;
-      const query = {_id: new ObjectId(id)}
-      const result  = await usersCollection.deleteOne(query)
-      res.send(result)
-    })
+      const query = { _id: new ObjectId(id) };
+      const result = await usersCollection.deleteOne(query);
+      res.send(result);
+    });
 
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });

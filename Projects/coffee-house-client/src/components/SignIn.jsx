@@ -12,10 +12,24 @@ const SignIn = () => {
     const email = form.email.value;
     const password = form.password.value;
     signInUser(email, password)
-      .then((res)=> {
+      .then((res) => {
         console.log(res.user);
+        // update last login time
+        const lastSignInTime = res?.user?.metadata?.lastSignInTime;
+        const updatedLoginInfo = { email, lastSignInTime };
+        fetch(`http://localhost:5000/users`,{
+            method: "PATCH",
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(updatedLoginInfo)
+        })
+        .then(res=>res.json())
+        .then(data=>{
+            console.log('sign in info updated in db: ', data)
+        })
       })
-      .catch((e)=> {
+      .catch((e) => {
         console.log(e);
       });
   };
@@ -64,7 +78,7 @@ const SignIn = () => {
         </form>
         <p className="text-center font-semibold ">
           Already Have An Account ?{" "}
-          <Link to="/auth/login" className="text-red-600">
+          <Link to="/signup" className="text-red-600">
             Register
           </Link>{" "}
         </p>
