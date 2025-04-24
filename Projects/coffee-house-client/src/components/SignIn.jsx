@@ -34,8 +34,8 @@ const SignIn = () => {
       });
   };
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-300">
-      <div className="card bg-gray-500 w-full max-w-lg shrink-0 rounded-none p-10">
+    <div className="flex justify-center items-center min-h-screen ">
+      <div className="card  w-full max-w-lg shrink-0 rounded-none p-10 shadow-2xl">
         <h2 className="text-2xl font-semibold text-center">
           Sign In your account
         </h2>
